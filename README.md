@@ -16,7 +16,8 @@ Twittov is a simple script that generates nonsense from your tweets.
 
 Usage: `twittov.py [options] username`
 
-Options:
+Options: |
+---------|---------
 `-h, --help` | show this help message and exit
 `-l LENGTH, --length=LENGTH` | Set the *minimum* output length in characters. LENGTH must be a positive integer. Default is 160.
 `-c FILE, --cache-file=FILE` | Sets the cache file. By default, we save to twittov.cache
