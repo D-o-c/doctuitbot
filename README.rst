@@ -14,7 +14,7 @@ Version: 1.0
 
 Twittov is a simple script that generates nonsense from your tweets.
 
-Usage: twittov.py [options] username
+Usage: `twittov.py [options] username`
 
 Options:
   -h, --help            show this help message and exit
