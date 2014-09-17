@@ -123,13 +123,13 @@ def get_tweets(username, amount):
 
     if amount <= 200:
       # Make the API call.
-      search_results = twitter.getUserTimeline(screen_name=username,
+      search_results = twitter.get_user_timeline(screen_name=username,
           page=str(page), count=str(amount))
       finished = True
 
     else:
       # Make the API call.
-      search_results = twitter.getUserTimeline(screen_name=username,
+      search_results = twitter.get_user_timeline(screen_name=username,
           page=str(page), count='200')
       amount -= 200
       page += 1
