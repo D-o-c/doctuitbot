@@ -6,8 +6,8 @@ Version: 1.1
 
 _(Very very bugged)_
 
-Preso da: 
-- Twittov<br>
+Fork of:<br>
+ *Twittov*<br>
  Author: Mukund Lakshman<br>
  Website: http://www.twittov.com/<br>
  Version: 1.0<br>
