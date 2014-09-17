@@ -1,16 +1,16 @@
 doctuitbot
 ==========
 
-Author: Mattia Pini
+Authors: Mattia Pini, Emanuele Tironi
 Version: 1.1
 
 _(Very very bugged)_
 
-Preso da:
-Twittov
-Author: Mukund Lakshman
-Website: http://www.twittov.com/
-Version: 1.0
+Preso da: 
+- Twittov
+ - Author: Mukund Lakshman
+ - Website: http://www.twittov.com/
+ - Version: 1.0
 
 Twittov is a simple script that generates nonsense from your tweets.
 
