@@ -7,7 +7,7 @@ Version: 1.1
 _(Very very bugged)_
 
 Fork of:<br>
- *Twittov*<br>
+ **Twittov**<br>
  Author: Mukund Lakshman<br>
  Website: http://www.twittov.com/<br>
  Version: 1.0<br>
