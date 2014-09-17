@@ -7,10 +7,10 @@ Version: 1.1
 _(Very very bugged)_
 
 Preso da: 
-- Twittov
- - Author: Mukund Lakshman
- - Website: http://www.twittov.com/
- - Version: 1.0
+- Twittov<br>
+ Author: Mukund Lakshman<br>
+ Website: http://www.twittov.com/<br>
+ Version: 1.0<br>
 
 Twittov is a simple script that generates nonsense from your tweets.
 
