@@ -25,7 +25,7 @@
 
 """
 
-import string, sys, urllib2, random, cPickle
+import string, sys, random, pickle
 from optparse import OptionParser
 from twython import Twython
 from util import ingrams
@@ -114,6 +114,8 @@ def get_tweets(username, amount):
   """
   tweets = []
   twitter = Twython()
+
+  print (type(amount))
 
   finished = False
   page = 1
@@ -243,12 +245,12 @@ if __name__ == '__main__':
       f = open(options.cache, 'rb')
     except IOError:
       if options.verbose:
-        print 'Cannot open %s for reading.' % options.cache
+        print ("Cannot open %s for reading." % options.cache)
       cache = {}
     else:
-      cache = cPickle.load(f)
+      cache = pickle.load(f)
       if options.verbose:
-        print 'Loaded cache from %s successfully.' % options.cache
+        print ("Loaded cache from %s successfully." % options.cache)
       f.close()
 
     # If it's in the cache, let's not generate anything.
@@ -256,7 +258,7 @@ if __name__ == '__main__':
       tweets = cache[username]
       found = True
       if options.verbose:
-        print '%s\'s tweets are already cached.' % username
+        print ("%s\'s tweets are already cached." % username)
 
     # Otherwise, we should parse pages.
     else:
@@ -270,11 +272,11 @@ if __name__ == '__main__':
           f = open(options.cache, 'w')
         except IOError:
           if options.verbose:
-            print 'Cannot open %s for writing.' % options.cache
+            print ("Cannot open %s for writing." % options.cache)
         else:
           cPickle.dump(cache, f)
           f.close()
           if options.verbose:
-            print 'Wrote %s with data for %s.' % (options.cache, username)
+            print ("Wrote %s with data for %s." % (options.cache, username))
 
-    print tweets.generate_text(options.order, options.length, options.split_words)
+    print (tweets.generate_text(options.order, options.length, options.split_words))
