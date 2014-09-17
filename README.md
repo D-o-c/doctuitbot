@@ -1,7 +1,7 @@
 doctuitbot
 ==========
 
-Authors: Mattia Pini, Emanuele Tironi
+Authors: Mattia Pini, Emanuele Tironi 
 Version: 1.1
 
 _(Very very bugged)_
