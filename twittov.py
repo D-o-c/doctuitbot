@@ -29,6 +29,9 @@ import string, sys, random, pickle
 from optparse import OptionParser
 from twython import Twython
 from util import ingrams
+from xml.dom import minidom
+import xml.etree.cElementTree as ET
+
 
 class TwitterAPIException(Exception):
   def __init__(self, value):
@@ -265,13 +268,69 @@ if __name__ == '__main__':
 
     # Otherwise, we should parse pages.
     else:
+      if (options.AK=='0' or options.AS=='0' or options.AT=='0' or options.ATS=='0'): #nothing in input
+        try: #try to open xml file and search key element
+          tok_doc = minidom.parse('.td')
+          itemlist = tok_doc.getElementByTagName('key')
+          AK=itemlist[0]
+          AS=itemlist[1]
+          AT=itemlist[2]
+          ATS=itemlist[3]
+        except IOError: #if failed, ERROR
+          print ("There aren't token saved or in input. The application will close.")
+          sys.exit(1)
+        print ('No input data, using saved data')
+
+      else:
+        try: #try to open xml file
+          tok_doc = minidom.parse('.td')
+          itemlist = tok_doc.getElementByTagName('key')
+          rx = raw_input('Saved data found, would you like to replace it?[Y/n]') #replace data found?
+
+          if (rx!='n'): #YES
+
+            remove('.td') #rimuovo file e riscrivo
+            root = ET.element('root')
+            keys = ET.SubElement(root, 'keys')
+            key1 = ET.SubElement(keys, 'key')
+            key1.text = options.AK
+            key2 = ET.SubElement(keys, 'key')
+            key2.text = options.AS
+            key3 = ET.SubElement(keys, 'key')
+            key3.text = options.AK
+            key4 = ET.SubElement(keys, 'key')
+            key4.text = options.AK
+            tree = ET.ElementTree(root)
+            tree.write('.td')
+          
+
+        except IOError: #file not exist, write it
+          root = ET.element('root')
+          keys = ET.SubElement(root, 'keys')
+          key1 = ET.SubElement(keys, 'key')
+          key1.text = options.AK
+          key2 = ET.SubElement(keys, 'key')
+          key2.text = options.AS
+          key3 = ET.SubElement(keys, 'key')
+          key3.text = options.AK
+          key4 = ET.SubElement(keys, 'key')
+          key4.text = options.AK
+          tree = ET.ElementTree(root)
+          tree.write('.td')
+
+        AK = options.AK
+        AS = options.AS
+        AT = options.AT
+        ATS = options.ATS
+        
+      
       found = False
       cache[username] = TweetList(username,
                                   options.amount,
-                                  options.AK,   #APP_KEY
-                                  options.AS,   #APP_SECRET
-                                  options.AT,   #AUTH_TOKEN
-                                  options.ATS)  #AUTH_TOKEN_SECRET
+                                  AK,   #APP_KEY
+                                  AS,   #APP_SECRET
+                                  AT,   #AUTH_TOKEN
+                                  ATS)  #AUTH_TOKEN_SECRET
       tweets = cache[username]
 
       if not found:
