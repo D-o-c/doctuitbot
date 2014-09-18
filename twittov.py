@@ -101,7 +101,7 @@ def markov(sequence, order, distribution=None, heads=None):
 
   return distribution, heads
 
-def get_tweets(username, amount):
+def get_tweets(username, amount, AK, AS, OT, OTS):
   """Given a Twitter username, scrape up to $amount entries.
 
   We do not fetch exactly $amount tweets. The account may not have $amount tweets,
@@ -113,9 +113,7 @@ def get_tweets(username, amount):
 
   """
   tweets = []
-  twitter = Twython()
-
-  print (type(amount))
+  twitter = Twython(AK, AS, OT, OTS)	#APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
 
   finished = False
   page = 1
@@ -145,9 +143,9 @@ def get_tweets(username, amount):
   return tweets
 
 class TweetList:
-  def __init__(self, username, num_tweets):
+  def __init__(self, username, num_tweets, AK, AS, OT, OTS):
     self.username = username
-    self.tweets = get_tweets(username, num_tweets)
+    self.tweets = get_tweets(username, num_tweets, AK, AS, OT, OTS)	#APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
 
   def generate_text(self, order, length, split_words):
     """Use the Markov chains to generate text.
@@ -214,6 +212,7 @@ class TweetList:
 # everything in .twittov.cache.
 if __name__ == '__main__':
 
+    
     # Standard argument parsing using the optparse module.
     parser = OptionParser(usage='Usage: twittov.py [options] username')
     parser.set_defaults(length=160, split_words=False, cache='.twittov.cache', must_cache=False, order=3, cache_size=200, verbose=False)
@@ -221,10 +220,14 @@ if __name__ == '__main__':
     parser.add_option('-l', '--length', type='int', dest='length', metavar='LENGTH', help='Set the *minimum* output length in characters. LENGTH must be a positive integer. Default is 160.')
     parser.add_option('-c', '--cache-file', dest='cache', type='string', metavar='FILE', help='Sets the cache file. By default, we save to .twittov.cache')
     parser.add_option('-f', '--force-cache-update', action='store_true', dest='mustCache', help='Force download all tweets and update cache, even if username is already in cache.')
-    parser.add_option('-s', '--cache-size', type='int', dest='amount', help='How many tweets to scrape. Default is 200.')
+    parser.add_option('-s', '--cache-size', type='int', dest='amount', default=200, help='How many tweets to scrape. Default is 200.')
     parser.add_option('-o', '--order', type='int', dest='order', help='The order of the markov chains. Default is 3.')
     parser.add_option('-x', '--split', action='store_true', dest='split_words', metavar='SPLIT', help='If set, operates on groups of letters rather than words.')
     parser.add_option('-v', '--verbose', action='store_true', dest='verbose', metavar='SPLIT', help='If set, displays verbose output.')
+    parser.add_option('--API_KEY', type='string', dest='AK', default='0', help='Your API Key')
+    parser.add_option('--API_SECRET', type='string', dest='AS', default='0', help='Your API Secret')
+    parser.add_option('--ACCESS_TOKEN', type='string', dest='OT', default='0', help='Your Access Token')
+    parser.add_option('--ACCESS_TOKEN_SECRET', type='string', default='0', dest='OTS', help='Your Access Token Secret')
 
     (options, args) = parser.parse_args()
 
@@ -262,8 +265,14 @@ if __name__ == '__main__':
 
     # Otherwise, we should parse pages.
     else:
+      #copy token into variables
+      AK=options.AK
+      AS=options.AS
+      OT=options.OT
+      OTS=options.OTS
       found = False
-      cache[username] = TweetList(username, options.amount)
+      print (AK, AS, OT, OTS, options.amount)
+      cache[username] = TweetList(username, options.amount, AK, AS, OT, OTS) #APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
       tweets = cache[username]
 
       if not found:
@@ -274,7 +283,9 @@ if __name__ == '__main__':
           if options.verbose:
             print ("Cannot open %s for writing." % options.cache)
         else:
-          cPickle.dump(cache, f)
+          print (type(cache))
+          print (type(f))
+          pickle.dump(cache, f)
           f.close()
           if options.verbose:
             print ("Wrote %s with data for %s." % (options.cache, username))
