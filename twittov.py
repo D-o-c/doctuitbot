@@ -113,7 +113,7 @@ def get_tweets(username, amount, AK, AS, OT, OTS):
 
   """
   tweets = []
-  twitter = Twython(AK, AS, OT, OTS)	#APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
+  twitter = Twython(AK, AS, AT, ATS)	#APP_KEY, APP_SECRET, AUTH_TOKEN, AUTH_TOKEN_SECRET
 
   finished = False
   page = 1
@@ -143,9 +143,9 @@ def get_tweets(username, amount, AK, AS, OT, OTS):
   return tweets
 
 class TweetList:
-  def __init__(self, username, num_tweets, AK, AS, OT, OTS):
+  def __init__(self, username, num_tweets, AK, AS, AT, ATS):
     self.username = username
-    self.tweets = get_tweets(username, num_tweets, AK, AS, OT, OTS)	#APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
+    self.tweets = get_tweets(username, num_tweets, AK, AS, AT, ATS)	#APP_KEY, APP_SECRET, AUTH_TOKEN, AUTH_TOKEN_SECRET
 
   def generate_text(self, order, length, split_words):
     """Use the Markov chains to generate text.
@@ -226,8 +226,8 @@ if __name__ == '__main__':
     parser.add_option('-v', '--verbose', action='store_true', dest='verbose', metavar='SPLIT', help='If set, displays verbose output.')
     parser.add_option('--API_KEY', type='string', dest='AK', default='0', help='Your API Key')
     parser.add_option('--API_SECRET', type='string', dest='AS', default='0', help='Your API Secret')
-    parser.add_option('--ACCESS_TOKEN', type='string', dest='OT', default='0', help='Your Access Token')
-    parser.add_option('--ACCESS_TOKEN_SECRET', type='string', default='0', dest='OTS', help='Your Access Token Secret')
+    parser.add_option('--ACCESS_TOKEN', type='string', dest='AT', default='0', help='Your Access Token')
+    parser.add_option('--ACCESS_TOKEN_SECRET', type='string', default='0', dest='ATS', help='Your Access Token Secret')
 
     (options, args) = parser.parse_args()
 
@@ -265,14 +265,13 @@ if __name__ == '__main__':
 
     # Otherwise, we should parse pages.
     else:
-      #copy token into variables
-      AK=options.AK
-      AS=options.AS
-      OT=options.OT
-      OTS=options.OTS
       found = False
-      print (AK, AS, OT, OTS, options.amount)
-      cache[username] = TweetList(username, options.amount, AK, AS, OT, OTS) #APP_KEY, APP_SECRET, OAUTH_TOKEN, OAUTH_TOKEN_SECRET
+      cache[username] = TweetList(username,
+                                  options.amount,
+                                  options.AK,   #APP_KEY
+                                  options.AS,   #APP_SECRET
+                                  options.AT,   #AUTH_TOKEN
+                                  options.ATS)  #AUTH_TOKEN_SECRET
       tweets = cache[username]
 
       if not found:
