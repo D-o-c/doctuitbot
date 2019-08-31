@@ -26,3 +26,6 @@ Options | meanings
 `-o ORDER`, `--order=ORDER` | The order of the markov chains. Default is 3.
 `-x`, `--split` | If set, operates on groups of letters rather than words.
 `-v`, `--verbose` | If set, displays verbose output.
+
+
+PROVA!!
